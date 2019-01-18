@@ -17,7 +17,12 @@ useParallel = TRUE; nCores = 24        # on department servers
 
 # 10 sims with 6 cores took 10 sec;
 # similar 10 sec with 24 cores;
-# now try 400 sims with 24 cores...
+# 400 sims with 24 cores took around 150 sec.
+# (?Does R even use 24 cores, if we have fewer than 24 distinct settings?
+# Here we have 3 k's x 3 p's x 3 n's x 2 mu's = 54,
+# but I guess it wouldn't use all 24 requested cores if there were fewer settings.
+# Unfortunately I haven't set up code to split up REPLICATIONS across cores,
+# just COMBOS OF SIM SETTINGS, so we'll always have the larger n&p settings take long.)
 
 
 
