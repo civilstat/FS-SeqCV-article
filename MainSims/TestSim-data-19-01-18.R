@@ -5,6 +5,20 @@ mySeed = 190118
 mySuffix = "19-01-18"
 nrSims = 10L
 
+### SPECIFY FILE PATH, LOAD FUNCTIONS
+indir = "./Functions/"
+outdir = "./MainSims/"
+
+# Flag whether or not to use parallel processing,
+# and if so, how many cores to use
+useParallel = TRUE; nCores = 24        # on department servers
+# useParallel = TRUE; nCores = 2        # on desktop
+# useParallel = FALSE; nCores = NULL    # for debugging w/o running in parallel
+
+# 10 sims with 6 cores took 10 sec;
+# try 10 sims with 24 cores...
+
+
 
 
 # Create the simulated data used for Figures 6.1, 6.2, 6.3 in thesis:
@@ -57,17 +71,6 @@ nrSims = 10L
 # FS_KnownK
 # with each K = 3, 5, 10
 
-
-
-### SPECIFY FILE PATH, LOAD FUNCTIONS
-indir = "./Functions/"
-outdir = "./MainSims/"
-
-# Flag whether or not to use parallel processing,
-# and if so, how many cores to use
-useParallel = TRUE; nCores = 6        # on department servers
-# useParallel = TRUE; nCores = 2        # on desktop
-# useParallel = FALSE; nCores = NULL    # for debugging w/o running in parallel
 
 
 
