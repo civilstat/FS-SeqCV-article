@@ -3,7 +3,7 @@
 
 mySeed = 190118
 mySuffix = "19-01-18"
-nrSims = 10L
+nrSims = 400L
 
 ### SPECIFY FILE PATH, LOAD FUNCTIONS
 indir = "./Functions/"
@@ -16,7 +16,8 @@ useParallel = TRUE; nCores = 24        # on department servers
 # useParallel = FALSE; nCores = NULL    # for debugging w/o running in parallel
 
 # 10 sims with 6 cores took 10 sec;
-# try 10 sims with 24 cores...
+# similar 10 sec with 24 cores;
+# now try 400 sims with 24 cores...
 
 
 
