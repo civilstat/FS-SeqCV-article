@@ -107,21 +107,26 @@ simAllSubplots$procedure = factor(simAllSubplots$procedure)
 levels(simAllSubplots$procedure) =
   c("Known K", "SeqCV 5-fold", "SeqCV inv.-5-fold")
 
+# Change colors and plotting characters for black-and-white figure
+myPch = c(20, 83, 83)
+myCol = grey(c(0, .3, .3))
 p = ggplot(simAllSubplots, aes(x = n, y = mean,
                                ymin = mean - MOE, ymax = mean + MOE,
                                color = procedure,
-                               linetype = procedure))
-p = p + geom_point() + geom_line() + 
+                               linetype = procedure, shape = procedure))
+p = p + geom_point(size = 3, fill = "black") + geom_line() + 
   geom_errorbar(width = .05) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n (log scale)") +
   ylab("Prob. of finding true model") +
   ggtitle(thisTitle) +
   facet_grid(K ~ mu + p, labeller = "label_eq", space = "free_x", scales = "free_x") + 
-  scale_color_manual(values = brewerColors,
+  scale_color_manual(values = myCol,
                      name = "Stopping rule") +
   scale_linetype_manual(values = myLty,
                         name = "Stopping rule") +
+  scale_shape_manual(values = myPch,
+                     name = "Stopping rule") +
   theme(legend.key.width = unit(2, "line"),
         panel.spacing.x = unit(.7, "line"))
 

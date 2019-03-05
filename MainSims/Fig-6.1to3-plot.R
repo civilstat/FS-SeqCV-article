@@ -208,18 +208,22 @@ simToPlot$mu = factor(simToPlot$muFactor, levels = c("1", "5"),
   
 # foundTrueModel:
 thisTitle = expression("X ~ N(0, "*Sigma[1]*"("*mu*")),  "*epsilon*" ~ N(0, 1),  "*beta*" ~ Unif(0.2, 2)")
+# Change colors and plotting characters for black-and-white figure
+myPch = c(20, 83, 70, 83, 70)
+myCol = grey(c(0, .3, .7, .3, .7))
 p = ggplot(subset(simToPlot, outcome == "foundTrueModel"),
            aes(x = n, y = mean,
                ymin = mean - MOE, ymax = mean + MOE,
-               color = procedure, linetype = procedure))
-p = p + geom_point() + geom_line() + 
+               color = procedure, linetype = procedure, shape = procedure))
+p = p + geom_point(size = 3, fill = "black") + geom_line() + 
   geom_errorbar(width = .05) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Prob. of finding true model") +
   ggtitle(thisTitle) +
-  scale_color_manual(values = brewerColors, name = "Stopping rule") +
+  scale_color_manual(values = myCol, name = "Stopping rule") +
   scale_linetype_manual(values = myLty, name = "Stopping rule") +
+  scale_shape_manual(values = myPch, name = "Stopping rule") +
   facet_grid(K ~ mu + p, labeller = "label_eq") +
   theme(axis.text.x = element_text(angle = 40, hjust = 1))
 
@@ -227,7 +231,7 @@ p = p + geom_point() + geom_line() +
 # to better separate low- vs high-mu groups
 # https://stackoverflow.com/questions/49123019/add-space-between-specific-facets-in-ggplot2-facet-grid
 gt = ggplot_gtable(ggplot_build(p))
-gt$widths[12] = 2*gt$widths[12]
+gt$widths[12] = 3*gt$widths[12]
 grid.draw(gt)
 
 ggsave(paste0(outdir, "SimPlot_", mySuffix, "_ProbSuccess.pdf"),
