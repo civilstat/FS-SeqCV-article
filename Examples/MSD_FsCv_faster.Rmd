@@ -1,29 +1,37 @@
-####
-## Recreate parts of Table 6.1 from thesis
-## as well as numerical results mentioned inline in Section 6.2.2
-## using a 10:90 train:test split, and also a 90:10 split,
-## both within the original learning-subset of the data
+---
+title: "Improved MSD example for Wieczorek and Lei paper"
+author: "Jerzy Wieczorek"
+date: "August 5, 2019"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '../') 
+```
 
+## Setup
 
-## July 29-30, 2019
+Create Table 1 for
+"Model-Selection Properties of Forward Selection and
+Sequential Cross-Validation for High-Dimensional Regression"
+by Wieczorek and Lei.
 
-## Revising this code based on reviewer feedback that it's VERY slow.
-## Instead of doing it sequentially with R's basic MASS:addterm()
-## and all the machinery of creating lm objects,
-## now we use leaps package to generate the whole path very quickly
-## and extract only the betahats needed for predictions
-## (without all the other lm object stuff), which is much faster.
-## Also, now we run both the 90:10 and the 10:90 splits in this same file.
+Code has been revised based on reviewer feedback that it's VERY slow.
+The original version ran sequentially with R's basic `MASS:addterm()`
+and all the machinery of creating `lm` objects.
+Now, we use `leaps` package to generate the path very quickly
+and extract only the betahats needed for predictions,
+which is much faster.
 
+```{r}
+suppressWarnings(library(leaps)) ## for regsubsets()
+suppressWarnings(library(Matrix)) ## for sparse matrix multiplication
 
-
-#### Setup ####
-
-library(leaps) ## for regsubsets()
-library(Matrix) ## for sparse matrix multiplication
-
-## Load in full learning and holdout sets
+## Load in full learning and holdout sets:
+## Learning set = first 463715 cases of original MSD,
+## Holdout set  = last   51630 cases of original MSD
+## (as recommended by the dataset creators).
 load("./Examples/MSD_learn.Rdata") ## learning (we will sub-split this further)
 load("./Examples/MSD_holdout.Rdata")  ## holdout (used for reporting holdout MSEs)
 
@@ -113,21 +121,23 @@ fillbeta = function(Khat, myFS) {
   betahat0[names(coef(myFS, Khat))] = coef(myFS, Khat)
   return(betahat0)
 }
+```
+
+For SeqCV, going completely sequentially (train & test one $\hat{K}$ at a time)
+involves a lot of overhead moving between R and FORTRAN and back,
+which artificially slows us down compared to doing it all in FORTRAN.
+
+Without writing our own FORTRAN code, we can compromise by going in batches:
+train a path of `Kmod=30` $\hat{K}$ values at a time,
+then test each of them sequentially one at a time,
+and move on to the next 30 if no local min is found, etc.
+This should be conservative for the timings we would get
+if we had built the sequential-testing directly into the FORTRAN code.
 
 
+## Results
 
-## For SeqCV, going completely sequentially (train & test one Khat at a time)
-## involves a lot of overhead moving between R and FORTRAN and back,
-## which artificially slows us down (compared to doing it all in FORTRAN).
-## We will instead go in batches: train a path of Kmod=30 Khats at a time,
-## then test each of them sequentially one at a time,
-## and move on to the next 30 Khats if no local min is found.
-## This should be conservative for the timings we would get
-## if we had built the sequential-testing directly into the FORTRAN code.
-
-
-
-
+```{r}
 #### Actual runs for final timing, Khat, and RMSE ####
 
 ## Nr times to replicate each timing,
@@ -138,10 +148,12 @@ nreps = 10
 ## run up to first K=30 at once, then check each of those RMSEs on test split;
 ## if haven't hit a local min yet, continue on to fit path for K=31:60, etc
 Kmod = 30
+```
 
 
+### SeqCV, 10:90
 
-## SeqCV, 10:90
+```{r}
 rep_Seq1090 = replicate(nreps, {
   time_Seq1090 = system.time({
     intercept = mean(Y_MSD_train_1090)
@@ -164,17 +176,19 @@ rep_Seq1090 = replicate(nreps, {
   })
   return(c(time = time_Seq1090[3], Khat_Seq1090 = Khat_Seq1090))
 })
-mean(rep_Seq1090[1, ])  # 1.38 sec
-2*sd(rep_Seq1090[1, ])/sqrt(nreps)  # 0.04 sec
+mean(rep_Seq1090[1, ])
+2*sd(rep_Seq1090[1, ])/sqrt(nreps)
 (Khat_Seq1090 = rep_Seq1090[2,1])  # 23
 # Fit model up to this Khat on *full* learning dataset and test on holdout data
 fslearn_Seq1090 = regsubsets(x = X_MSD_learn, y = Y_MSD_learn,
                              nvmax = Khat_Seq1090, method = "forward")
 testRMSEholdout(Khat_Seq1090, fslearn_Seq1090)  # 9.598
+```
 
 
+### SeqCV, 90:10
 
-## SeqCV, 90:10
+```{r}
 rep_Seq9010 = replicate(nreps, {
   time_Seq9010 = system.time({
     intercept = mean(Y_MSD_train_9010)
@@ -197,17 +211,19 @@ rep_Seq9010 = replicate(nreps, {
   })
   return(c(time = time_Seq9010[3], Khat_Seq9010 = Khat_Seq9010))
 })
-mean(rep_Seq9010[1, ])  # 3.39 sec
-2*sd(rep_Seq9010[1, ])/sqrt(nreps)  # 0.06 sec
+mean(rep_Seq9010[1, ])
+2*sd(rep_Seq9010[1, ])/sqrt(nreps)
 (Khat_Seq9010 = rep_Seq9010[2,1])   # 29
 # Fit model up to this Khat on *full* learning dataset and test on holdout data
 fslearn_Seq9010 = regsubsets(x = X_MSD_learn, y = Y_MSD_learn,
                              nvmax = Khat_Seq9010, method = "forward")
 testRMSEholdout(Khat_Seq9010, fslearn_Seq9010)  # 9.562
+```
 
 
+### FullCV, 10:90
 
-## FullCV, 10:90
+```{r}
 rep_Full1090 = replicate(nreps, {
   time_Full1090 = system.time({
     fs1090 = regsubsets(x = X_MSD_train_1090, y = Y_MSD_train_1090,
@@ -220,17 +236,19 @@ rep_Full1090 = replicate(nreps, {
   })
   return(c(time = time_Full1090[3], Khat_Full1090 = Khat_Full1090))
 })
-mean(rep_Full1090[1, ])  # 4.80 sec
-2*sd(rep_Full1090[1, ])/sqrt(nreps)  # 0.06 sec
+mean(rep_Full1090[1, ])
+2*sd(rep_Full1090[1, ])/sqrt(nreps)
 (Khat_Full1090 = rep_Full1090[2,1]) # 60
 # Fit model up to this Khat on *full* learning dataset and test on holdout data
 fslearn_Full1090 = regsubsets(x = X_MSD_learn, y = Y_MSD_learn,
                               nvmax = Khat_Full1090, method = "forward")
 testRMSEholdout(Khat_Full1090, fslearn_Full1090)  # 9.515
+```
 
 
+### FullCV, 90:10
 
-## FullCV, 90:10
+```{r}
 rep_Full9010 = replicate(nreps, {
   time_Full9010 = system.time({
     fs9010 = regsubsets(x = X_MSD_train_9010, y = Y_MSD_train_9010,
@@ -243,19 +261,20 @@ rep_Full9010 = replicate(nreps, {
   })
   return(c(time = time_Full9010[3], Khat_Full9010 = Khat_Full9010))
 })
-mean(rep_Full9010[1, ])  # 5.00 sec
-2*sd(rep_Full9010[1, ])/sqrt(nreps)  # 0.06 sec
+mean(rep_Full9010[1, ])
+2*sd(rep_Full9010[1, ])/sqrt(nreps)
 (Khat_Full9010 = rep_Full9010[2,1]) # 76
 # Fit model up to this Khat on *full* learning dataset and test on holdout data
 fslearn_Full9010 = regsubsets(x = X_MSD_learn, y = Y_MSD_learn,
                               nvmax = Khat_Full9010, method = "forward")
 testRMSEholdout(Khat_Full9010, fslearn_Full9010)  # 9.511
+```
 
 
+### RMSEs for Null and Full models
 
-#### RMSEs for Null and Full models ####
-
-## This is only for RMSEs.
+```{r}
+## We only calculate RMSEs, not timings too.
 ## (The timings above were done only for selection time,
 ##  not incl final refit to full learning set at Khat and holdout RMSE calc.)
 
@@ -267,4 +286,4 @@ sqrt(mean((intercept - Y_MSD_holdout)^2))  # 10.852
 fslearn_FullAll = regsubsets(x = X_MSD_learn, y = Y_MSD_learn,
                              nvmax = p, method = "forward")
 testRMSEholdout(p, fslearn_FullAll)  # 9.510
-
+```
