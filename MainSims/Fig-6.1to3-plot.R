@@ -209,8 +209,11 @@ simToPlot$mu = factor(simToPlot$muFactor, levels = c("1", "5"),
 # foundTrueModel:
 thisTitle = expression("X ~ N(0, "*Sigma[1]*"("*mu*")),  "*epsilon*" ~ N(0, 1),  "*beta*" ~ Unif(0.2, 2)")
 # Change colors and plotting characters for black-and-white figure
-myPch = c(20, 83, 70, 83, 70)
-myCol = grey(c(0, .3, .7, .3, .7))
+# myPch = c(20, 83, 70, 83, 70)
+# myCol = grey(c(0, .3, .7, .3, .7))
+myPch = c(1, 83, 4, 83, 4)  ## 8/11/2019: changed plot symbols for readability
+myCol = brewerColors        ## 8/11/2019: returned to color figure
+summary(subset(simToPlot, outcome == "foundTrueModel")$MOE) ## 8/11/2019: MOEs are never more than 0.05
 p = ggplot(subset(simToPlot, outcome == "foundTrueModel"),
            aes(x = n, y = mean,
                ymin = mean - MOE, ymax = mean + MOE,
@@ -244,8 +247,8 @@ ggsave(paste0(outdir, "SimPlot_", mySuffix, "_ProbSuccess.pdf"),
 p = ggplot(subset(simToPlot, outcome == "nrFalsePos"),
            aes(x = n, y = mean,
                ymin = mean - MOE, ymax = mean + MOE,
-               color = procedure, linetype = procedure))
-p = p + geom_point() + geom_line() + 
+               color = procedure, linetype = procedure, shape = procedure)) ## 8/11/2019: added shape legend for consistency
+p = p + geom_point(size = 3) + geom_line() + 
   geom_errorbar(width = .05) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
@@ -253,6 +256,7 @@ p = p + geom_point() + geom_line() +
   ggtitle(thisTitle) +
   scale_color_manual(values = brewerColors, name = "Stopping rule") +
   scale_linetype_manual(values = myLty, name = "Stopping rule") +
+  scale_shape_manual(values = myPch, name = "Stopping rule") + ## 8/11/2019: added shape legend for consistency
   facet_grid(K ~ mu + p, labeller = "label_eq", scales = "free_y") +
   theme(axis.text.x = element_text(angle = 40, hjust = 1))
 
@@ -270,8 +274,8 @@ ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalsePos.pdf"),
 p = ggplot(subset(simToPlot, outcome == "nrFalseNegs"),
            aes(x = n, y = mean,
                ymin = mean - MOE, ymax = mean + MOE,
-               color = procedure, linetype = procedure))
-p = p + geom_point() + geom_line() + 
+               color = procedure, linetype = procedure, shape = procedure)) ## 8/11/2019: added shape legend for consistency
+p = p + geom_point(size = 3) + geom_line() + 
   geom_errorbar(width = .05) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
@@ -279,6 +283,7 @@ p = p + geom_point() + geom_line() +
   ggtitle(thisTitle) +
   scale_color_manual(values = brewerColors, name = "Stopping rule") +
   scale_linetype_manual(values = myLty, name = "Stopping rule") +
+  scale_shape_manual(values = myPch, name = "Stopping rule") + ## 8/11/2019: added shape legend for consistency
   facet_grid(K ~ mu + p, labeller = "label_eq", scales = "free_y") +
   theme(axis.text.x = element_text(angle = 40, hjust = 1))
 
