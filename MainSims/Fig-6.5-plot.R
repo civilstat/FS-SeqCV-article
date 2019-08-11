@@ -105,11 +105,12 @@ simAllSubplots = subset(simToPlot,
                                          "SeqCVa_i5F"))
 simAllSubplots$procedure = factor(simAllSubplots$procedure)
 levels(simAllSubplots$procedure) =
-  c("Known K", "SeqCV 5-fold", "SeqCV inv.-5-fold")
+  c("Known K", "Seq 5-fold CV", "Seq inv.-5-fold CV")
 
 # Change colors and plotting characters for black-and-white figure
 myPch = c(20, 83, 83)
-myCol = grey(c(0, .3, .3))
+# myCol = grey(c(0, .3, .3))
+myCol = brewerColors  ## 8/11/2019: returned to color figure
 p = ggplot(simAllSubplots, aes(x = n, y = mean,
                                ymin = mean - MOE, ymax = mean + MOE,
                                color = procedure,

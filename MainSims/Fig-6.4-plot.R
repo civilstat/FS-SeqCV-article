@@ -135,16 +135,18 @@ simAllSubplots = subset(simToPlot,
                                          "SeqCVa_i5F"))
 simAllSubplots$procedure = factor(simAllSubplots$procedure)
 levels(simAllSubplots$procedure) =
-  c("Known K", "SeqCV 5-fold", "SeqCV inv.-5-fold")
+  c("Known K", "Seq 5-fold CV", "Seq inv.-5-fold CV")  ## 8/11/2019: changed labels for consistency
 brewerColors = c("black", brewer.pal(12, "Paired")[c(2,6)])
 myLty = 1:3
+myPch = c(1, 83, 83)  ## 8/11/2019: changed plot symbols for consistency
 
 thisTitle = expression("X ~ N(0, "*Sigma[1]*"("*mu*")),  "*epsilon*" ~ t(2),  "*beta*" ~ Unif(0.2, 2)")
 p = ggplot(simAllSubplots, aes(x = n, y = mean,
                                ymin = mean - MOE, ymax = mean + MOE,
                                color = procedure,
-                               linetype = procedure))
-p = p + geom_point() + geom_line() + 
+                               linetype = procedure,
+                               shape = procedure)) ## 8/11/2019: changed plot symbols for consistency
+p = p + geom_point(size = 3) + geom_line() + 
   geom_errorbar(width = .05) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n (log scale)") +
@@ -155,6 +157,8 @@ p = p + geom_point() + geom_line() +
                      name = "Stopping rule") +
   scale_linetype_manual(values = myLty,
                         name = "Stopping rule") +
+  scale_shape_manual(values = myPch,
+                     name = "Stopping rule") + ## 8/11/2019: changed plot symbols for consistency
   theme(legend.key.width = unit(2, "line"),
         axis.text.x = element_text(size = 8),
         axis.text.y = element_text(size = 8),
