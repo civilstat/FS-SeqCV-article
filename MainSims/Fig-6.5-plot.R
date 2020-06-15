@@ -133,5 +133,5 @@ p = p + geom_point(size = 3, fill = "black") + geom_line() +
 
 
 ggsave(paste0(outdir, "SimPlot_", mySuffix, "_SeqFolds.pdf"), p,
-       width = 6.5, height = 5)
+       width = 6.5, height = 3)
 

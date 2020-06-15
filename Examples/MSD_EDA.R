@@ -71,19 +71,19 @@ sqrt(max(eigs$values) / min(eigs$values))
 ## There is a tiny "long tail" of high corrs among Xs,
 ## but not much to worry about (and not much we CAN do, with OLS)
 myBlue = blues9[7]
-pdf("./Examples/MSD_Corrs_Original.pdf", width = 6, height = 2, pointsize = 10)
+pdf("./Examples/MSD_Corrs_Original.pdf", width = 6, height = 1.5, pointsize = 10)
 par(mar = c(5, 4, 0.5, 2.1))
 layout(matrix(1:2, 1))
 tmp = cor(MSD_learn[, -1])
 diag(tmp) = NA
 hist(tmp, seq(-1, 1, len = 81), col = myBlue, border = NA, xlim = c(-1, 1),
      xlab = "Correlations among predictors", main = "",
-     freq = FALSE, ylim = c(0, 7.2))
+     freq = FALSE, ylim = c(0, 9), las = 1)
 ## And no X has a high corr with Y
 hist(cor(MSD_learn[, 1], MSD_learn[, 2:91]), seq(-1, 1, len = 81),
      col = myBlue, border = NA, xlim = c(-1, 1),
      xlab = "Correlations between predictor and Year", main = "",
-     freq = FALSE, ylim = c(0, 7.2))
+     freq = FALSE, ylim = c(0, 9), las = 1)
 dev.off()
 
 
