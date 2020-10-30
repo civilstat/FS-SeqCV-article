@@ -219,7 +219,8 @@ p = ggplot(subset(simToPlot, outcome == "foundTrueModel"),
                ymin = mean - MOE, ymax = mean + MOE,
                color = procedure, linetype = procedure, shape = procedure))
 p = p + geom_point(size = 3, fill = "black") + geom_line() + 
-  geom_errorbar(width = .05) +
+  # geom_errorbar(width = .05) +
+  geom_errorbar(width = .15, linetype = 1) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Prob. of finding true model") +
@@ -237,7 +238,7 @@ gt = ggplot_gtable(ggplot_build(p))
 gt$widths[12] = 3*gt$widths[12]
 grid.draw(gt)
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_ProbSuccess.pdf"),
+ggsave(paste0(outdir, "SimPlot_", mySuffix, "_ProbSuccess_ErrBars.pdf"),
        grid.draw(gt),
        width = 9, height = 5)
 
@@ -249,7 +250,8 @@ p = ggplot(subset(simToPlot, outcome == "nrFalsePos"),
                ymin = mean - MOE, ymax = mean + MOE,
                color = procedure, linetype = procedure, shape = procedure)) ## 8/11/2019: added shape legend for consistency
 p = p + geom_point(size = 3) + geom_line() + 
-  geom_errorbar(width = .05) +
+  # geom_errorbar(width = .05) +
+  geom_errorbar(width = .15, linetype = 1) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Avg. nr. of false positives") +
@@ -264,7 +266,7 @@ gt = ggplot_gtable(ggplot_build(p))
 gt$widths[12] = 2*gt$widths[12]
 grid.draw(gt)
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalsePos.pdf"),
+ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalsePos_ErrBars.pdf"),
        grid.draw(gt),
        width = 9, height = 5)
 
@@ -276,7 +278,8 @@ p = ggplot(subset(simToPlot, outcome == "nrFalseNegs"),
                ymin = mean - MOE, ymax = mean + MOE,
                color = procedure, linetype = procedure, shape = procedure)) ## 8/11/2019: added shape legend for consistency
 p = p + geom_point(size = 3) + geom_line() + 
-  geom_errorbar(width = .05) +
+  # geom_errorbar(width = .05) +
+  geom_errorbar(width = .15, linetype = 1) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Avg. nr. of false negatives") +
@@ -291,7 +294,7 @@ gt = ggplot_gtable(ggplot_build(p))
 gt$widths[12] = 2*gt$widths[12]
 grid.draw(gt)
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalseNegs.pdf"),
+ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalseNegs_ErrBars.pdf"),
        grid.draw(gt),
        width = 9, height = 5)
 
