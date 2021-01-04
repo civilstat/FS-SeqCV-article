@@ -9,7 +9,7 @@ These simulations rely on functions defined (and libraries loaded) in `Functions
 ## Examples using real data
 The `Examples` folder contains code and data to replicate the real-data example from Section 5.2, including Figure 4 and Table 1.
 
-The 201MB data file of the Million Song Dataset is not included, but `MSD_EDA.R` contains instructions to download and pre-process it.
+The 201MB data file of the Million Song Dataset is not included, but `Fig4_MSD_EDA.R` contains instructions to download and pre-process it.
 
 ## Other smaller simulations
 The `SmallSims` folder contains code (and saved simulation results) to replicate other simulations from throughout the article: Figure 1 in Section 3.3, and Figures S1 and S2 in Supplemental Section S3.2.

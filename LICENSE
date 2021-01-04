@@ -3,13 +3,6 @@ https://github.com/tbertinmahieux/MSongsDB/blob/master/LICENSE
 The dataset and paper are available at:  
 https://archive.ics.uci.edu/ml/datasets/yearpredictionmsd
 
-Tong Zhang's R code for his FoBa algorithm, `greedy.R`, was released under the GNU GPLv2. His original code, documentation, and paper are available online at:  
-http://tongzhang-ml.org/software.html
-
-The prostate cancer dataset, `prostate.data`, was released through The Elements of Statistical Learning website at:  
-https://web.stanford.edu/~hastie/ElemStatLearn/  
-or through the `ElemStatLearn` R package, under the GNU GPLv2 and GPLv3 licenses.
-
 The remaining code, data, and simulation results are released under the GNU GPLv3 (General Public License v3.0).
 
 A copy of The Echo Nest API terms of use and the GNU GPLv3 are provided below.
