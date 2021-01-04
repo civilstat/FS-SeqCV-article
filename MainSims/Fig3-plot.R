@@ -1,4 +1,4 @@
-# Recreate Figure 6.5 from thesis
+# Recreate Figure 3 from paper
 
 
 #### BAD SIGMA SIM SETTINGS ####
@@ -132,6 +132,6 @@ p = p + geom_point(size = 3, fill = "black") + geom_line() +
         panel.spacing.x = unit(.7, "line"))
 
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_SeqFolds.pdf"), p,
+ggsave(paste0(outdir, "Fig3_SimPlot_", mySuffix, "_SeqFolds.pdf"), p,
        width = 6.5, height = 3)
 

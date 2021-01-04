@@ -1,4 +1,4 @@
-# Create the simulated data used for Figure 6.5 in thesis
+# Create the simulated data used for Figure 3 in paper
 
 
 
