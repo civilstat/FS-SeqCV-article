@@ -1,4 +1,4 @@
-# Recreate Figure 5.1 from thesis
+# Recreate Figure S1 from supplement
 
 # Compute training ratio n_c/n for a given alpha,
 # using only k=K_0-1,
@@ -21,7 +21,7 @@ SNRs = c(40, 50, 60, 100, 200, 400)
 
 
 
-pdf("./SmallSims/ProbUnderOverFit_BothKs.pdf", width = 7.5, height = 4)
+pdf("./SmallSims/FigS1_ProbUnderOverFit_BothKs.pdf", width = 7.5, height = 4)
 layout(matrix(1:2, 1))
 par(mar = c(4, 3, 2, 1) + .1)
 k = 5

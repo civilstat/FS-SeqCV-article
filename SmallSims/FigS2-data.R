@@ -1,4 +1,4 @@
-# Create the simulated data used for Figure 5.2 in thesis
+# Create the simulated data used for Figure S2 in supplement
 
 
 #### SIMULATE ####
@@ -72,7 +72,7 @@ for(p in c(6, 11)) {
       }
     }
   })
-  dump(c("Punders", "Povers"), paste0("./SmallSims/ProbsAtK", k, "_20170904.R"))
+  dump(c("Punders", "Povers"), paste0("./SmallSims/FigS2_ProbsAtK", k, "_20170904.R"))
   print(runtime)
   print(k)
   print(Punders)
