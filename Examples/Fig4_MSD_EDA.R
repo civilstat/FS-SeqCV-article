@@ -1,6 +1,8 @@
-## Recreate Figure 6.7 from thesis
-## as well as numerical results mentioned in Section 6.2.2,
-## inline and in Table 6.1
+## Instructions to download and preprocess Million Song Dataset,
+## then recreate Figure 4 from paper
+## as well as numerical results mentioned inline in Section 5.2.
+##
+## To recreate Table 1, see Table1_MSD_FsCv_faster.Rmd
 
 
 #### Split up raw dataset ####
@@ -71,7 +73,7 @@ sqrt(max(eigs$values) / min(eigs$values))
 ## There is a tiny "long tail" of high corrs among Xs,
 ## but not much to worry about (and not much we CAN do, with OLS)
 myBlue = blues9[7]
-pdf("./Examples/MSD_Corrs_Original.pdf", width = 6, height = 1.5, pointsize = 10)
+pdf("./Examples/Fig4_MSD_Corrs_Original.pdf", width = 6, height = 1.5, pointsize = 10)
 par(mar = c(5, 4, 0.5, 2.1))
 layout(matrix(1:2, 1))
 tmp = cor(MSD_learn[, -1])
@@ -112,7 +114,7 @@ summary(lm1)$r.squared ## 0.24
 ## so even the full model is not substantially better than null.
 
 
-#### Using Sec 5.2 rule of thumb for choosing a training ratio ####
+#### Using Section 4 rule of thumb for choosing a training ratio ####
 
 ## Say we only want to use a sparse model if there is substantial sparsity:
 ## we want no more than 1/3rd of the 90 predictors, so hope for k <= 30.
@@ -127,7 +129,7 @@ sum(abs(coef(lm1_stdized)[-1]) > 0.3)
 ## and two more are still above 0.3,
 ## so assuming |betamin| = 0.3 seems reasonable with k=30.
 
-## Based on Section 5.2 heuristics,
+## Based on Section 4 heuristics,
 ## we can safely use a training ratio of n_c/n = 1/10
 ## if the following is at least sqrt(1 + 10/1) which is approx 3.32:
 n = nrow(MSD_learn)
