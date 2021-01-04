@@ -1,21 +1,21 @@
-# Recreate Figures 6.1, 6.2, 6.3 from thesis
+# Recreate Figures 2, S3, and S4 from paper and supplement
 
 # Data-generating scripts are a bit messy,
 # because they were run at different times,
 # and I cobbled together the relevant results from several different runs
-# for the final graphs in the thesis.
+# for the final graphs in the paper.
 # In summary...
 
 # 16-07-19 and 17-09-10_K5:
 #   for smaller n (50, 250, 1250) or largest n (6250) respectively,
 #   these are results for oracle FS with *known* K,
 #   for K=5 and p=50 or 250,
-#   from an earlier phase when we had other K and p settings not used in final thesis.
+#   from an earlier phase when we had other K and p settings not used in final paper.
 # 17-09-09_SmallN and 17-09-09_LargeN:
 #   for smaller n (50, 250, 1250) or largest n (6250) respectively,
 #   these are results for FS *estimating* K,
 #   for K=5 and p=50 or 250,
-#   from an earlier phase when we had other K and p settings not used in final thesis.
+#   from an earlier phase when we had other K and p settings not used in final paper.
 # 18-04-17_K005, 18-04-14_K025, and 18-04-14_K125:
 #   for K = 5, 25, or 125 respectively,
 #   these are results for FS with both *known* and *estimated* K,
@@ -238,7 +238,7 @@ gt = ggplot_gtable(ggplot_build(p))
 gt$widths[12] = 3*gt$widths[12]
 grid.draw(gt)
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_ProbSuccess_ErrBars.pdf"),
+ggsave(paste0(outdir, "Fig2_SimPlot_", mySuffix, "_ProbSuccess_ErrBars.pdf"),
        grid.draw(gt),
        width = 9, height = 5)
 
@@ -266,7 +266,7 @@ gt = ggplot_gtable(ggplot_build(p))
 gt$widths[12] = 2*gt$widths[12]
 grid.draw(gt)
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalsePos_ErrBars.pdf"),
+ggsave(paste0(outdir, "FigS4_SimPlot_", mySuffix, "_FalsePos_ErrBars.pdf"),
        grid.draw(gt),
        width = 9, height = 5)
 
@@ -294,7 +294,7 @@ gt = ggplot_gtable(ggplot_build(p))
 gt$widths[12] = 2*gt$widths[12]
 grid.draw(gt)
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_FalseNegs_ErrBars.pdf"),
+ggsave(paste0(outdir, "FigS3_SimPlot_", mySuffix, "_FalseNegs_ErrBars.pdf"),
        grid.draw(gt),
        width = 9, height = 5)
 

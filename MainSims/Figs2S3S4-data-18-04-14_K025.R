@@ -1,17 +1,17 @@
-# Create the simulated data used for Figures 6.1, 6.2, 6.3 in thesis:
-# specifically, the known-K AND estimated-K simulations for K=125,
+# Create the simulated data used for Figures 2, S3, and S4 from paper and supplement:
+# specifically, the known-K AND estimated-K simulations for K=25,
 # at every n = 50, 250, 1250, 6250,
 # at every p = 10, 50, 250, 1250.
 
 
 
-# 4 sims at nCores=6 took 6540 sec,
-# so 400 sims should take 654000 sec = 10900 min = 182 hrs = 7.6 days.
+# 4 sims at nCores=6 took 6750 sec,
+# so 400 sims should take 675000 sec = 11250 min = 188 hrs = 7.8 days.
 # (1000 sims' precision may be higher than we really need.)
-# Starting on hydra2 around 1pm Sat April 14,
-# expect to finish by 3am Sun April 22.
+# Starting on hydra3 around 1pm Sat April 14,
+# expect to finish by 8am Sun April 22.
 
-# Running JUST K=125 combos of the below sims
+# Running JUST K=25 combos of the below sims
 
 # Running
 # SeqCVa VF vs FullCVa VF,
@@ -23,15 +23,15 @@
 # p = 10, 50, 250, 1250...
 # REMEMBER to drop all combinations where k>p or k>n
 
-mySeed = 180414.125
-mySuffix = "18-04-14_K125"
+mySeed = 180414.025
+mySuffix = "18-04-14_K025"
 
 
 # Keep doNormalize = FALSE.
 
 # Use data settings:
 # Sigma = ConstCorr
-# K = 125
+# K = 25
 # p = 10, 50, 250, 1250
 # n = 50, 250, 1250, 6250
 # mu = 1/(2K), 5/(2K)
@@ -40,7 +40,7 @@ mySuffix = "18-04-14_K125"
 #
 # and use 5F CV-a variants, with Seq CV and FullCV,
 # at train/test ratios 4:1 and 1:4.
-# Also KnownK with K=125
+# Also KnownK with K=25
 
 
 
@@ -61,9 +61,9 @@ useParallel = TRUE; nCores = 6        # on department servers
 # or any constants we want reported such as nrSims
 # (but define whichProcedures separately, so each new dataset runs all procedures)
 simSettingsList = list(nrSims = 400L,
-                       p = c(10L, 50L, 250L, 1250L),
                        n = c(50L, 250L, 1250L, 6250L),
-                       K = c(125L),
+                       p = c(10L, 50L, 250L, 1250L),
+                       K = c(25L),
                        muFactor = c(1L, 5L),
                        betamin = c(1/5),
                        betamax = 2L,
@@ -73,7 +73,7 @@ simSettingsList = list(nrSims = 400L,
                        doNormalize = FALSE, rescaleByN = FALSE)
 whichProcedures = c("SeqCVa_5F", "SeqCVa_i5F",
                     "FullCVa_5F", "FullCVa_i5F",
-                    "FS_K125")
+                    "FS_K25")
 
 # Specify procedure variants with non-default options.
 # 4:1 ratios:
@@ -95,8 +95,8 @@ FullCVa_i5F = function(Y, X) {
           voteFolds = FALSE, voteSplits = TRUE, SeqCV = FALSE)
 }
 # Known K
-FS_K125 = function(Y, X) {
-  FS_KnownK(Y, X, K = 125)
+FS_K25 = function(Y, X) {
+  FS_KnownK(Y, X, K = 25)
 }
 
 
@@ -118,13 +118,12 @@ simSettingsDf = subset(simSettingsDf,
                        K < n & K < p)
 
 # Try to rearrange rows,
-# so that you don't have both huge-n sims in the same core:
+# so that you don't have all four huge sims in the same core:
 # (max-p + max-n) with (min-p + min-n),
 # (max-p + min-n) with vice versa,
-# and both moderate-n together.
-simSettingsDf = simSettingsDf[c(1,6,3,4,5,2,
-                                7,12,9,10,11,8), ]
-
+# and all four moderate-p together.
+rowshuffle = c(9:10, 3:8, 1:2, 11:12)
+simSettingsDf = simSettingsDf[c(rowshuffle, 12+rowshuffle), ]
 
 ### RUN AND SAVE SIMULATION RESULTS TO FILE
 # (By default, file is .../SimData_YY-MM-DD.R)

@@ -1,6 +1,6 @@
-# Create the simulated data used for Figures 6.1, 6.2, 6.3 in thesis:
+# Create the simulated data used for Figures 2, S3, and S4 from paper and supplement:
 # specifically, the KnownK simulations at the largest n = 6250,
-# for K=5, p=50 and 250, as well as some other settings not used in final thesis.
+# for K=5, p=50 and 250, as well as some other settings not used in final paper.
 
 
 

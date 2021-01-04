@@ -1,14 +1,14 @@
-# Create the simulated data used for Figures 6.1, 6.2, 6.3 in thesis:
-# specifically, the estimated-K simulations at the largest n = 6250,
-# for K=5, p=50 and 250, as well as some other settings not used in final thesis.
+# Create the simulated data used for Figures 2, S3, and S4 from paper and supplement:
+# specifically, the estimated-K simulations at the smaller n = 50, 250, 1250,
+# for K=5, p=50 and 250, as well as some other settings not used in final paper.
 
 
 
-# 5 sims at nCores=6 took 431 sec,
-# so 100 sims should take 8620 sec = 144 min,
-# so let's do 1000 sims in 24 hrs.
-# Starting on hydra2 around 9:50am Sept 9,
-# expect to finish by 10am Sept 10.
+# 5 sims at nCores=6 took 193 sec,
+# so 100 sims should take 3860 sec = 65 min,
+# so let's do 1000 sims in 10.5 hrs.
+# Starting on hydra2 around 2:10pm Sept 8,
+# expect to finish by 1am Sept 9.
 
 # Following on 17-09-08 test,
 # do a full run now:
@@ -22,10 +22,10 @@
 # another for all the remaining settings, and
 # a third for KnownK.
 #
-# THIS SCRIPT, LargeN, is for the "n=6250, CV" settings.
+# THIS SCRIPT, SmallN, is for the "other n, CV" settings.
 
 mySeed = 170909
-mySuffix = "17-09-09_LargeN"
+mySuffix = "17-09-09_SmallN"
 
 
 # Keep doNormalize = FALSE,
@@ -34,7 +34,7 @@ mySuffix = "17-09-09_LargeN"
 # Use data settings:
 # K = 3,5,10
 # p = 11,50,250
-# n = 6250
+# n = 50,250,1250
 # mu = 1/(2K) * [1, 5]
 # beta_min = 1/5
 # epsilon ~ Normal
@@ -56,14 +56,13 @@ useParallel = TRUE; nCores = 6        # on department servers
 
 
 
-
 ### SPECIFY SIMULATION SETTINGS
 # Specify the simulation settings for which we want all cross-combinations,
 # or any constants we want reported such as nrSims
 # (but define whichProcedures separately, so each new dataset runs all procedures)
 simSettingsList = list(nrSims = 1000L,
                        p = c(11L, 50L, 250L),
-                       n = c(6250L),
+                       n = c(50L, 250L, 1250L),
                        K = c(3L, 5L, 10L),
                        muFactor = c(1L, 5L),
                        betamin = c(1/5),
@@ -150,5 +149,3 @@ SimData = runAndSaveSim(indir, outdir,
                         useParallel, nCores,
                         mySeed = mySeed, mySuffix = mySuffix,
                         simSettingsDf = simSettingsDf)
-
-
