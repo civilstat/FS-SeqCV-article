@@ -1,4 +1,4 @@
-# Create the simulated data used for Figure 4.2 in thesis
+# Create the simulated data used for Figure 1 in paper
 
 # 7/12/17
 # First draft of simulation for
@@ -57,6 +57,6 @@ system.time({
     }))
   }
 })
-save(ProbSuccess, file = "./SmallSims/CVWrapper_20170716_SqrtN.Rdata")
+save(ProbSuccess, file = "./SmallSims/Fig1_CVWrapper_20170716_SqrtN.Rdata")
 
 

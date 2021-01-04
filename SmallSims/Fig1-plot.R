@@ -1,4 +1,4 @@
-# Recreate Figure 4.2 in the thesis.
+# Recreate Figure 1 in the paper.
 
 ## Using n_c=sqrt(n) not n^(2/3),
 ## because this will let us argue that both
@@ -14,7 +14,7 @@ library(plotrix)
 ###
 # 07-16:
 # Used n_c = sqrt(n)
-load("./SmallSims/CVWrapper_20170716_SqrtN.Rdata")
+load("./SmallSims/Fig1_CVWrapper_20170716_SqrtN.Rdata")
 p = 1:8
 n = ceiling((20*(1:20))^(2))
 nc_fun = function(x) floor(x^(1/2))
@@ -56,7 +56,7 @@ myColors = brewer.pal(9, "OrRd")[c(1:6, 8)]
 
 
 
-pdf("./SmallSims/CVBoth_20170716_SqrtN.pdf", width = 7, height = 8)
+pdf("./SmallSims/Fig1_CVBoth_20170716_SqrtN.pdf", width = 7, height = 8)
 layout(matrix(1:2, nrow = 2))
 
 ## Top plot for Wrapper FS

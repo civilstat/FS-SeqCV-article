@@ -12,7 +12,7 @@ The `Examples` folder contains code and data to replicate the real-data example 
 The 201MB data file of the Million Song Dataset is not included, but `MSD_EDA.R` contains instructions to download and pre-process it.
 
 ## Other smaller simulations
-The `SmallSims` folder contains code (and saved simulation results) to replicate other simulations from throughout the article: Figures 1 in Section 3.3, and Figures S1 and S2 in Supplemental Section S3.2.
+The `SmallSims` folder contains code (and saved simulation results) to replicate other simulations from throughout the article: Figure 1 in Section 3.3, and Figures S1 and S2 in Supplemental Section S3.2.
 
 ## `R` packages used for the article
 The primary packages used are `leaps` for implementing Forward Selection, `doParallel` for parallel computing of the main simulations, and `ggplot2` for generating most of the figures.
