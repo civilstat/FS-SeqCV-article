@@ -1,4 +1,4 @@
-# Recreate Figure 6.4 from thesis
+# Recreate Figure S5 from supplement
 
 
 #### BAD NOISE SIM SETTINGS ####
@@ -165,6 +165,6 @@ p = p + geom_point(size = 3) + geom_line() +
         panel.spacing.x = unit(.7, "line"))
 
 
-ggsave(paste0(outdir, "SimPlot_", mySuffix, "_AllSubplotsSeqFolds_T2Noise.pdf"), p,
+ggsave(paste0(outdir, "FigS5_SimPlot_", mySuffix, "_AllSubplotsSeqFolds_T2Noise.pdf"), p,
        width = 9, height = 5.5)
 
