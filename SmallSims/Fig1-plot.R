@@ -66,7 +66,7 @@ image(nc_fun(n), p, matrix(ProbSuccess$ProbWrapper, nrN),
       las = 1,
       xlab = "",
       ylab=  "",
-      main = "Wrapper FS avoids overfitting\nwith fewer spurious variables & larger samples")
+      main = "WrapperFS avoids overfitting\nwith fewer spurious variables & larger samples")
 title(ylab = "Number of spurious variables, p", line = 2)
 contour(nc_fun(n), p, matrix(predict(lo.wrap, ProbSuccess), nrN),
         nlevels = 5, add = TRUE,
