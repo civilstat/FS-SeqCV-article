@@ -194,7 +194,8 @@ levels(simToPlot$procedure) =
 # Then use 2 linetypes, dashed vs dotted,
 # for Seq vs Full.
 brewerColors = c("black", brewer.pal(12, "Paired")[c(2,1,6,5)])
-myLty = c(1, 2,2, 3,3)
+# myLty = c(1, 2,2, 3,3)
+myLty = c("solid", "dashed","dashed", "dotted","dotted")
 
 # For sake of plotting, redefine mu
 # to say 1/(2K) or 5/(2K) directly in the labels
@@ -220,16 +221,16 @@ p = ggplot(subset(simToPlot, outcome == "foundTrueModel"),
                color = procedure, linetype = procedure, shape = procedure))
 p = p + geom_point(size = 3, fill = "black") + geom_line() + 
   # geom_errorbar(width = .05) +
-  geom_errorbar(width = .15, linetype = 1) +
+  geom_errorbar(width = .15, linetype = 1, show.legend=FALSE) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Prob. of finding true model") +
   ggtitle(thisTitle) +
   scale_color_manual(values = myCol, name = "Stopping rule") +
-  scale_linetype_manual(values = myLty, name = "Stopping rule") +
   scale_shape_manual(values = myPch, name = "Stopping rule") +
   facet_grid(K ~ mu + p, labeller = "label_eq") +
-  theme(axis.text.x = element_text(angle = 40, hjust = 1))
+  theme(axis.text.x = element_text(angle = 40, hjust = 1)) +
+  scale_linetype_manual(values = myLty, name = "Stopping rule")
 
 # Add spacing between just two of the facets,
 # to better separate low- vs high-mu groups
@@ -251,7 +252,7 @@ p = ggplot(subset(simToPlot, outcome == "nrFalsePos"),
                color = procedure, linetype = procedure, shape = procedure)) ## 8/11/2019: added shape legend for consistency
 p = p + geom_point(size = 3) + geom_line() + 
   # geom_errorbar(width = .05) +
-  geom_errorbar(width = .15, linetype = 1) +
+  geom_errorbar(width = .15, linetype = 1, show.legend=FALSE) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Avg. nr. of false positives") +
@@ -263,7 +264,7 @@ p = p + geom_point(size = 3) + geom_line() +
   theme(axis.text.x = element_text(angle = 40, hjust = 1))
 
 gt = ggplot_gtable(ggplot_build(p))
-gt$widths[12] = 2*gt$widths[12]
+gt$widths[12] = 3*gt$widths[12]
 grid.draw(gt)
 
 ggsave(paste0(outdir, "FigS4_SimPlot_", mySuffix, "_FalsePos_ErrBars.pdf"),
@@ -279,7 +280,7 @@ p = ggplot(subset(simToPlot, outcome == "nrFalseNegs"),
                color = procedure, linetype = procedure, shape = procedure)) ## 8/11/2019: added shape legend for consistency
 p = p + geom_point(size = 3) + geom_line() + 
   # geom_errorbar(width = .05) +
-  geom_errorbar(width = .15, linetype = 1) +
+  geom_errorbar(width = .15, linetype = 1, show.legend=FALSE) +
   scale_x_log10(breaks = c(50,250,1250,6250)) +
   xlab("n") +
   ylab("Avg. nr. of false negatives") +
@@ -291,7 +292,7 @@ p = p + geom_point(size = 3) + geom_line() +
   theme(axis.text.x = element_text(angle = 40, hjust = 1))
 
 gt = ggplot_gtable(ggplot_build(p))
-gt$widths[12] = 2*gt$widths[12]
+gt$widths[12] = 3*gt$widths[12]
 grid.draw(gt)
 
 ggsave(paste0(outdir, "FigS3_SimPlot_", mySuffix, "_FalseNegs_ErrBars.pdf"),
