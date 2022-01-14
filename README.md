@@ -1,5 +1,5 @@
 # FS-SeqCV-article
-Simulations and data analyses from Jerzy Wieczorek and Jing Lei's article "Model-Selection Properties of Forward Selection and Sequential Cross-Validation for High-Dimensional Regression," to appear in *The Canadian Journal of Statistics* (accepted on Dec 22, 2020).
+Simulations and data analyses from Jerzy Wieczorek and Jing Lei's article ["Model-Selection Properties of Forward Selection and Sequential Cross-Validation for High-Dimensional Regression,"](https://doi.org/10.1002/cjs.11635) *Canadian Journal of Statistics* (published online July 22, 2021).
 
 ## Main simulations
 The `MainSims` folder contains code (and saved simulation results) to replicate the main simulations from Section 5.1 (Figures 2 and 3) and Supplemental Section S3.3 (Figures S3, S4, and S5).
